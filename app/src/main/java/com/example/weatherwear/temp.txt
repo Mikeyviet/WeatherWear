@@ -1,0 +1,3 @@
+cityNameTextView.setText(weatherAnalysis.getCityName());
+        temperatureTextView.setText(weatherAnalysis.getTemperature() + "°C");
+        weatherDescriptionTextView.setText(weatherAnalysis.getWeatherDescription());
