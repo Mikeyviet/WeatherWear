@@ -1,3 +1,3 @@
 # WeatherWear
 
-You know what this is. - will update later.  😵‍💫
+This is a test to see if commit works
