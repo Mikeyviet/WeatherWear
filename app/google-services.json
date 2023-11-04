@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "448006598767",
+    "project_id": "round-pen-404111",
+    "storage_bucket": "round-pen-404111.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448006598767:android:d8dfafab7949f1fb86dd9a",
+        "android_client_info": {
+          "package_name": "com.bitr8.weatherwear"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxjwdtr_xufETWOJIs-FxZHQ1558U_vXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

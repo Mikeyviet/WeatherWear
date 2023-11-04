@@ -1,4 +1,4 @@
-package com.example.weatherwear;
+package com.bitr8.weatherwear;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.weatherwear", appContext.getPackageName());
+        assertEquals("com.example.com.bitr8.weatherwear", appContext.getPackageName());
     }
 }
