@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView weatherDescriptionTextView;
     private ImageView weatherIconImageView;
 
-    private String location = "Texas";
+    private String location = "Dallas";
 
     private OpenWeatherMapService openWeatherMapService;
 
