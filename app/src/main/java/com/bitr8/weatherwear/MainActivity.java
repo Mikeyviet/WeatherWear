@@ -27,14 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    private TextView cityNameTextView;
-    private TextView temperatureTextView;
-    private TextView weatherDescriptionTextView;
-    private ImageView weatherIconImageView;
 
-    private String location = "Dallas";
-
-    private OpenWeatherMapService openWeatherMapService;
 
 
     @Override
@@ -49,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Showing weather data for " + location, Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Showing weather data for ", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -66,45 +59,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        cityNameTextView = findViewById(R.id.city_name_text_view);
-        temperatureTextView = findViewById(R.id.temperature_text_view);
-        weatherDescriptionTextView = findViewById(R.id.weather_description_text_view);
-        weatherIconImageView = findViewById(R.id.weather_icon_image_view);
 
-        openWeatherMapService = WeatherAPI.getInstance().create(OpenWeatherMapService.class);
-
-        loadWeatherData(location);
 
     }
 
-    private void loadWeatherData(String location) {
-
-        String apiKey = WeatherAPI.apiKey;
-        openWeatherMapService.getCurrentWeatherData(location, apiKey).enqueue(new Callback<WeatherAnalysis>() {
-            @Override
-            public void onResponse(Call<WeatherAnalysis> call, Response<WeatherAnalysis> response) {
-                if (response.isSuccessful()) {
-                    WeatherAnalysis weatherAnalysis = response.body();
-                    updateUI(weatherAnalysis);
-                } else {
-                    showErrorToast();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<WeatherAnalysis> call, Throwable t) {
-                showErrorToast();
-            }
-        });
-    }
-
-    private void updateUI(WeatherAnalysis weatherAnalysis) {
-
-    }
-
-    private void showErrorToast() {
-        Toast.makeText(MainActivity.this, "Failed to load weather data", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
