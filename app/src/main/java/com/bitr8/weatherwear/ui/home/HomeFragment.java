@@ -1,5 +1,6 @@
 package com.bitr8.weatherwear.ui.home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bitr8.weatherwear.MainActivity;
 import com.bitr8.weatherwear.OpenWeatherMapService;
 import com.bitr8.weatherwear.R;
 import com.bitr8.weatherwear.WeatherAPI;
@@ -26,8 +26,12 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
     private TextView cityNameTextView;
     private TextView temperatureTextView;
-    private TextView weatherDescriptionTextView;
+    private TextView humidityTextView;
+
+    private TextView feelsLikeTextView;
     private ImageView weatherIconImageView;
+
+    private TextView textView;
 
     private String location = "Dallas";
 
@@ -42,20 +46,18 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
         cityNameTextView = root.findViewById(R.id.city_name_text_view);
         temperatureTextView = root.findViewById(R.id.temperature_text_view);
-        weatherDescriptionTextView = root.findViewById(R.id.weather_description_text_view);
+        humidityTextView = root.findViewById(R.id.humidity_text_view);
         weatherIconImageView = root.findViewById(R.id.weather_icon_image_view);
+        feelsLikeTextView = root.findViewById(R.id.feels_like_text_view);
 
 
         openWeatherMapService = WeatherAPI.getInstance().create(OpenWeatherMapService.class);
 
         loadWeatherData(location);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), cityNameTextView::setText);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), temperatureTextView::setText);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), weatherDescriptionTextView::setText);
+
         return root;
     }
 
@@ -81,10 +83,14 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateUI(WeatherAnalysis weatherAnalysis) {
-        cityNameTextView.setText(weatherAnalysis.getCityName());
-        temperatureTextView.setText(weatherAnalysis.getTemperature() + "°C");
-        weatherDescriptionTextView.setText(weatherAnalysis.getWeatherDescription());
+        cityNameTextView.setText("City: " + location);
+        temperatureTextView.setText("Temperature: " + weatherAnalysis.getMain().getTemp() + " °C");
+        humidityTextView.setText("Humidity: " + weatherAnalysis.getMain().getHumidity() + "%");
+        feelsLikeTextView.setText("Feels Like: " + weatherAnalysis.getMain().getFeels_like() + " °C");
+
+
     }
 
     private void showErrorToast() {
@@ -92,7 +98,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void showDebugToast() {
-        Toast.makeText(getActivity(), "Showing weather for " + temperatureTextView, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Showing weather for " + location, Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onDestroyView() {

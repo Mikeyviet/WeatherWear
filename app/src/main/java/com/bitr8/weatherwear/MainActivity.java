@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Showing weather data for ", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Showing weather data", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

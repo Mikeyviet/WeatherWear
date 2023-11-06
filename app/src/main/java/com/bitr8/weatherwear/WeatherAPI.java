@@ -2,7 +2,7 @@ package com.bitr8.weatherwear;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 public class WeatherAPI {
-    private static final String BASE_URL = "https://api.openweathermap.org/data/3.0/";
+    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
     private static Retrofit retrofit;
 
     public static String apiKey = "56985a2e171ed42c2b5515cd09fc2b81";

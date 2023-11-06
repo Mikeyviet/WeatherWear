@@ -1,4 +1,9 @@
 package com.bitr8.weatherwear;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class WeatherAnalysis {
     private String cityName;
     private String temperature;
@@ -36,4 +41,27 @@ public class WeatherAnalysis {
     public void setWeatherDescription(String weatherDescription) {
         this.weatherDescription = weatherDescription;
     }
+
+    @SerializedName("main")
+    private Main main;
+
+    @SerializedName("weather")
+    private List<Weather> weatherList;
+
+
+    public Main getMain() {
+        return main;
+    }
+
+    public void setMain(Main main) {
+        this.main = main;
+    }
+
+    public List<Weather> getWeatherList() { return weatherList; }
+
+    public void setWeatherList(List<Weather> weatherList) { this.weatherList = weatherList; }
+
+
+
+
 }
