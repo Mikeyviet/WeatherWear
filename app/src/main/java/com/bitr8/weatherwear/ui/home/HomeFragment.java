@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bitr8.weatherwear.OpenWeatherMapService;
+import com.bitr8.weatherwear.OpenWeatherMapInterface;
 import com.bitr8.weatherwear.R;
 import com.bitr8.weatherwear.WeatherAPI;
 import com.bitr8.weatherwear.WeatherAnalysis;
@@ -31,11 +31,9 @@ public class HomeFragment extends Fragment {
     private TextView feelsLikeTextView;
     private ImageView weatherIconImageView;
 
-    private TextView textView;
-
     private String location = "Dallas";
 
-    private OpenWeatherMapService openWeatherMapService;
+    private OpenWeatherMapInterface openWeatherMapInterface;
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -54,7 +52,7 @@ public class HomeFragment extends Fragment {
         feelsLikeTextView = root.findViewById(R.id.feels_like_text_view);
 
 
-        openWeatherMapService = WeatherAPI.getInstance().create(OpenWeatherMapService.class);
+        openWeatherMapInterface = WeatherAPI.getInstance().create(OpenWeatherMapInterface.class);
 
         loadWeatherData(location);
 
@@ -64,7 +62,7 @@ public class HomeFragment extends Fragment {
     private void loadWeatherData(String location) {
 
         String apiKey = WeatherAPI.apiKey;
-        openWeatherMapService.getCurrentWeatherData(location, apiKey).enqueue(new Callback<WeatherAnalysis>() {
+        openWeatherMapInterface.getCurrentWeatherData(location, apiKey).enqueue(new Callback<WeatherAnalysis>() {
             @Override
             public void onResponse(Call<WeatherAnalysis> call, Response<WeatherAnalysis> response) {
                 if (response.isSuccessful()) {
