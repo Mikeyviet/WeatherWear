@@ -62,7 +62,8 @@ public class HomeFragment extends Fragment {
     private void loadWeatherData(String location) {
 
         String apiKey = WeatherAPI.apiKey;
-        openWeatherMapInterface.getCurrentWeatherData(location, apiKey).enqueue(new Callback<WeatherAnalysis>() {
+        String tempUnits = "metric";
+        openWeatherMapInterface.getCurrentWeatherData(location, apiKey, tempUnits).enqueue(new Callback<WeatherAnalysis>() {
             @Override
             public void onResponse(Call<WeatherAnalysis> call, Response<WeatherAnalysis> response) {
                 if (response.isSuccessful()) {
