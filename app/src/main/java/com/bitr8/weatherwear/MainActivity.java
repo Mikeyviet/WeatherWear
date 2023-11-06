@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+
             @Override
             public void onFailure(Call<WeatherAnalysis> call, Throwable t) {
                 showErrorToast();
