@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
 
     private OpenWeatherMapInterface openWeatherMapInterface;
     private FragmentHomeBinding binding;
-
+    public String tempUnits = "metric";
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel =
@@ -62,8 +62,8 @@ public class HomeFragment extends Fragment {
     private void loadWeatherData(String location) {
 
         String apiKey = WeatherAPI.apiKey;
-        String tempUnits = "metric";
-        openWeatherMapInterface.getCurrentWeatherData(location, apiKey, tempUnits).enqueue(new Callback<WeatherAnalysis>() {
+
+        openWeatherMapInterface.getWeatherData(location, apiKey, tempUnits).enqueue(new Callback<WeatherAnalysis>() {
             @Override
             public void onResponse(Call<WeatherAnalysis> call, Response<WeatherAnalysis> response) {
                 if (response.isSuccessful()) {
@@ -85,9 +85,12 @@ public class HomeFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void updateUI(WeatherAnalysis weatherAnalysis) {
         cityNameTextView.setText("City: " + location);
-        temperatureTextView.setText("Temperature: " + weatherAnalysis.getMain().getTemp() + " °C");
-        humidityTextView.setText("Humidity: " + weatherAnalysis.getMain().getHumidity() + "%");
-        feelsLikeTextView.setText("Feels Like: " + weatherAnalysis.getMain().getFeels_like() + " °C");
+        Double intTemp =Double.parseDouble(weatherAnalysis.getMain().getTemp());
+        temperatureTextView.setText("Temperature: " + String.format("%.0f", intTemp) + " °C");
+        Double intHumidity =Double.parseDouble(weatherAnalysis.getMain().getHumidity());
+        humidityTextView.setText("Humidity: " + String.format("%.0f", intHumidity) + " %");
+        Double intFeelsLike =Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
+        feelsLikeTextView.setText("Feels Like: " + String.format("%.0f", intFeelsLike) + " °C");
 
 
     }
@@ -103,5 +106,10 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void updateLocation(View view){
+
+        showDebugToast();
     }
 }
