@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.bitr8.weatherwear.R;
 import com.bitr8.weatherwear.WeatherAPI;
 import com.bitr8.weatherwear.WeatherAnalysis;
 import com.bitr8.weatherwear.databinding.FragmentHomeBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,10 +34,11 @@ public class HomeFragment extends Fragment {
     private ImageView weatherIconImageView;
 
     private String location = "Dallas";
-
+    private EditText inputText;
     private OpenWeatherMapInterface openWeatherMapInterface;
     private FragmentHomeBinding binding;
     public String tempUnits = "metric";
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel =
@@ -50,6 +53,35 @@ public class HomeFragment extends Fragment {
         humidityTextView = root.findViewById(R.id.humidity_text_view);
         weatherIconImageView = root.findViewById(R.id.weather_icon_image_view);
         feelsLikeTextView = root.findViewById(R.id.feels_like_text_view);
+        inputText = root.findViewById(R.id.inputText);
+
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                location = String.valueOf(inputText.getText());
+                loadWeatherData(location);
+                Snackbar.make(view, "Showing weather data for " + location , Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        binding.tempSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tempUnits == "metric") {
+                    tempUnits = "imperial";
+                    Snackbar.make(view, "Displaying temperature in Fahrenheit", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+                else if (tempUnits == "imperial"){
+                    tempUnits = "metric";
+                    Snackbar.make(view, "Displaying temperature in Celsius", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+            }
+
+                loadWeatherData(location);
+            }
+        });
 
 
         openWeatherMapInterface = WeatherAPI.getInstance().create(OpenWeatherMapInterface.class);
@@ -69,7 +101,7 @@ public class HomeFragment extends Fragment {
                 if (response.isSuccessful()) {
                     WeatherAnalysis weatherAnalysis = response.body();
                     updateUI(weatherAnalysis);
-                    showDebugToast();
+                    //showDebugToast();
                 } else {
                     showErrorToast();
                 }
@@ -84,19 +116,30 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void updateUI(WeatherAnalysis weatherAnalysis) {
-        cityNameTextView.setText("City: " + location);
-        Double intTemp =Double.parseDouble(weatherAnalysis.getMain().getTemp());
-        temperatureTextView.setText("Temperature: " + String.format("%.0f", intTemp) + " °C");
-        Double intHumidity =Double.parseDouble(weatherAnalysis.getMain().getHumidity());
-        humidityTextView.setText("Humidity: " + String.format("%.0f", intHumidity) + " %");
-        Double intFeelsLike =Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
-        feelsLikeTextView.setText("Feels Like: " + String.format("%.0f", intFeelsLike) + " °C");
+        cityNameTextView.setText(location);
+        if (tempUnits == "metric") {
+            Double intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
+            temperatureTextView.setText("Temperature: " + String.format("%.0f", intTemp) + " °C");
+            Double intHumidity = Double.parseDouble(weatherAnalysis.getMain().getHumidity());
+            humidityTextView.setText("Humidity: " + String.format("%.0f", intHumidity) + " %");
+            Double intFeelsLike = Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
+            feelsLikeTextView.setText("Feels Like: " + String.format("%.0f", intFeelsLike) + " °C");
+        }
+        else{
+            Double intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
+            temperatureTextView.setText("Temperature: " + String.format("%.0f", intTemp) + " °F");
+            Double intHumidity = Double.parseDouble(weatherAnalysis.getMain().getHumidity());
+            humidityTextView.setText("Humidity: " + String.format("%.0f", intHumidity) + " %");
+            Double intFeelsLike = Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
+            feelsLikeTextView.setText("Feels Like: " + String.format("%.0f", intFeelsLike) + " °F");
+        }
+
 
 
     }
 
     private void showErrorToast() {
-        Toast.makeText(getActivity(), "Failed to load weather data", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Location not valid!", Toast.LENGTH_SHORT).show();
     }
 
     private void showDebugToast() {
@@ -108,8 +151,5 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-    public void updateLocation(View view){
 
-        showDebugToast();
-    }
 }
