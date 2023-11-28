@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bitr8.weatherwear.OpenWeatherMapInterface;
@@ -19,6 +20,7 @@ import com.bitr8.weatherwear.R;
 import com.bitr8.weatherwear.WeatherAPI;
 import com.bitr8.weatherwear.WeatherAnalysis;
 import com.bitr8.weatherwear.databinding.FragmentHomeBinding;
+import com.bitr8.weatherwear.ui.gallery.GalleryFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import retrofit2.Call;
@@ -38,6 +40,10 @@ public class HomeFragment extends Fragment {
     private OpenWeatherMapInterface openWeatherMapInterface;
     private FragmentHomeBinding binding;
     public String tempUnits = "metric";
+
+    public Double intTemp;
+    public Double intHumidity;
+    public Double intFeelsLike;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -115,22 +121,22 @@ public class HomeFragment extends Fragment {
     }
 
     @SuppressLint("SetTextI18n")
-    private void updateUI(WeatherAnalysis weatherAnalysis) {
+    public void updateUI(WeatherAnalysis weatherAnalysis) {
         cityNameTextView.setText(location);
         if (tempUnits == "metric") {
-            Double intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
+            intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
             temperatureTextView.setText("Temperature: " + String.format("%.0f", intTemp) + " °C");
-            Double intHumidity = Double.parseDouble(weatherAnalysis.getMain().getHumidity());
+            intHumidity = Double.parseDouble(weatherAnalysis.getMain().getHumidity());
             humidityTextView.setText("Humidity: " + String.format("%.0f", intHumidity) + " %");
-            Double intFeelsLike = Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
+            intFeelsLike = Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
             feelsLikeTextView.setText("Feels Like: " + String.format("%.0f", intFeelsLike) + " °C");
         }
         else{
-            Double intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
+            intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
             temperatureTextView.setText("Temperature: " + String.format("%.0f", intTemp) + " °F");
-            Double intHumidity = Double.parseDouble(weatherAnalysis.getMain().getHumidity());
+            intHumidity = Double.parseDouble(weatherAnalysis.getMain().getHumidity());
             humidityTextView.setText("Humidity: " + String.format("%.0f", intHumidity) + " %");
-            Double intFeelsLike = Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
+            intFeelsLike = Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
             feelsLikeTextView.setText("Feels Like: " + String.format("%.0f", intFeelsLike) + " °F");
         }
 
