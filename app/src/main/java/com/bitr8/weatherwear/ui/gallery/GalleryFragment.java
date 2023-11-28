@@ -28,6 +28,7 @@ public class GalleryFragment extends Fragment {
 
     private FragmentGalleryBinding binding;
     private TextView clothingText;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         GalleryViewModel galleryViewModel =
@@ -48,7 +49,40 @@ public class GalleryFragment extends Fragment {
         binding = null;
     }
 
-    private void displayClothing(){
-
+    private void displayClothing() {
+        Double temp = HomeFragment.intTemp;
+        Double humidity = HomeFragment.intHumidity;
+        String tempUnits = HomeFragment.tempUnits;
+        if(tempUnits == "metric") {
+            if (temp > 35) {
+                clothingText.setText("It's hot outside! Wear light clothes.");
+            }
+            else if (temp > 20){
+                clothingText.setText("It's cool outside. Enjoy the weather");
+            }
+            else if (temp > 5){
+                clothingText.setText("It's cold outside! Wear warm clothes.");
+            }
+            else if (temp < 5){
+                clothingText.setText("It's freezing! Wear warm clothes.");
+            }
+        }
+        else if(tempUnits == "imperial"){
+            if (temp > 95) {
+                clothingText.setText("It's hot outside! Wear light clothes.");
+            }
+            else if (temp > 68){
+                clothingText.setText("It's cool outside. Enjoy the weather");
+            }
+            else if (temp > 41){
+                clothingText.setText("It's cold outside! Wear warm clothes.");
+            }
+            else if (temp < 41){
+                clothingText.setText("It's freezing! Wear warm clothes.");
+            }
+        }
+        else{
+            clothingText.setText("Something went wrong");
+        }
     }
 }

@@ -39,10 +39,10 @@ public class HomeFragment extends Fragment {
     private EditText inputText;
     private OpenWeatherMapInterface openWeatherMapInterface;
     private FragmentHomeBinding binding;
-    public String tempUnits = "metric";
+    public static String tempUnits = "metric";
 
-    public Double intTemp;
-    public Double intHumidity;
+    public static Double intTemp;
+    public static Double intHumidity;
     public Double intFeelsLike;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
