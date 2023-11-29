@@ -103,13 +103,13 @@ public class HomeFragment extends Fragment {
                 loadWeatherData(location);
             }
         });
-
+        SharedPreferences mPrefs = getContext().getSharedPreferences("label", 0);
+        String mString = mPrefs.getString("tag", "Default Name");
 
         openWeatherMapInterface = WeatherAPI.getInstance().create(OpenWeatherMapInterface.class);
 
         loadWeatherData(location);
-        SharedPreferences mPrefs = getContext().getSharedPreferences("label", 0);
-        String mString = mPrefs.getString("tag", "Default Name");
+
         binding.login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,6 +131,7 @@ public class HomeFragment extends Fragment {
                         String test = input.getText().toString();
                         mEditor.putString("tag", test).apply();
                         Toast.makeText(getActivity(), "Welcome " + test + "!", Toast.LENGTH_SHORT).show();
+
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -144,6 +145,8 @@ public class HomeFragment extends Fragment {
             }
         });
         Toast.makeText(getActivity(), "Welcome " + mString + "!", Toast.LENGTH_SHORT).show();
+
+
         return root;
     }
 
@@ -172,8 +175,9 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     public void updateUI(WeatherAnalysis weatherAnalysis) {
-        cityNameTextView.setText(WordUtils.capitalize(location));
+
         if (Objects.equals(tempUnits, "metric")) {
+            cityNameTextView.setText(WordUtils.capitalize(location));
             intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
             temperatureTextView.setText("Temperature: " + String.format("%.0f", intTemp) + " °C");
             intHumidity = Double.parseDouble(weatherAnalysis.getMain().getHumidity());
@@ -184,6 +188,7 @@ public class HomeFragment extends Fragment {
             descriptionTextView.setText(stringDescription);
         }
         else{
+            cityNameTextView.setText(WordUtils.capitalize(location));
             intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
             temperatureTextView.setText("Temperature: " + String.format("%.0f", intTemp) + " °F");
             intHumidity = Double.parseDouble(weatherAnalysis.getMain().getHumidity());
@@ -199,7 +204,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void showErrorToast() {
-        Toast.makeText(getActivity(), "Location not valid!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Enter a valid location!", Toast.LENGTH_SHORT).show();
     }
 
     private void showDebugToast() {

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.gallery.GalleryFragment">
 
-    <TextView
+    <EditText
         android:id="@+id/text_clothing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,4 +31,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/clothes_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Clothes"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="744dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
