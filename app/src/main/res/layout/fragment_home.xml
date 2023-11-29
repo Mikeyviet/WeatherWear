@@ -13,10 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginStart="-235dp"
-        android:layout_marginTop="-120dp"
-        app:layout_constraintStart_toEndOf="@id/inputText"
-        app:layout_constraintTop_toBottomOf="@id/inputText"
+        android:layout_marginStart="347dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/temperature_icon_png_11084" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -102,6 +103,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/humidity_text_view"
         app:layout_constraintVertical_bias="0.389" />
+
+
+    <TextView
+        android:id="@+id/description_text_view"
+        android:layout_width="411dp"
+        android:layout_height="8dp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteY="415dp" />
 
     <ImageView
         android:id="@+id/weather_icon_image_view"

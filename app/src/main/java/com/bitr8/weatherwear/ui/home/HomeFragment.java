@@ -23,6 +23,11 @@ import com.bitr8.weatherwear.databinding.FragmentHomeBinding;
 import com.bitr8.weatherwear.ui.gallery.GalleryFragment;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
+
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +38,8 @@ public class HomeFragment extends Fragment {
     private TextView humidityTextView;
 
     private TextView feelsLikeTextView;
+
+    private TextView descriptionTextView;
     private ImageView weatherIconImageView;
 
     private String location = "Dallas";
@@ -40,7 +47,7 @@ public class HomeFragment extends Fragment {
     private OpenWeatherMapInterface openWeatherMapInterface;
     private FragmentHomeBinding binding;
     public static String tempUnits = "metric";
-
+    public String stringDescription;
     public static Double intTemp;
     public static Double intHumidity;
     public Double intFeelsLike;
@@ -59,6 +66,7 @@ public class HomeFragment extends Fragment {
         humidityTextView = root.findViewById(R.id.humidity_text_view);
         weatherIconImageView = root.findViewById(R.id.weather_icon_image_view);
         feelsLikeTextView = root.findViewById(R.id.feels_like_text_view);
+        descriptionTextView = root.findViewById(R.id.description_text_view);
         inputText = root.findViewById(R.id.inputText);
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +74,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 location = String.valueOf(inputText.getText());
                 loadWeatherData(location);
-                Snackbar.make(view, "Showing weather data for " + location , Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Showing weather data for " + WordUtils.capitalize(location) , Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -122,14 +130,16 @@ public class HomeFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     public void updateUI(WeatherAnalysis weatherAnalysis) {
-        cityNameTextView.setText(location);
-        if (tempUnits == "metric") {
+        cityNameTextView.setText(WordUtils.capitalize(location));
+        if (Objects.equals(tempUnits, "metric")) {
             intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
             temperatureTextView.setText("Temperature: " + String.format("%.0f", intTemp) + " °C");
             intHumidity = Double.parseDouble(weatherAnalysis.getMain().getHumidity());
             humidityTextView.setText("Humidity: " + String.format("%.0f", intHumidity) + " %");
             intFeelsLike = Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
             feelsLikeTextView.setText("Feels Like: " + String.format("%.0f", intFeelsLike) + " °C");
+            stringDescription = WordUtils.capitalize(weatherAnalysis.getWeatherList().get(0).getDescription());
+            descriptionTextView.setText(stringDescription);
         }
         else{
             intTemp = Double.parseDouble(weatherAnalysis.getMain().getTemp());
@@ -138,6 +148,8 @@ public class HomeFragment extends Fragment {
             humidityTextView.setText("Humidity: " + String.format("%.0f", intHumidity) + " %");
             intFeelsLike = Double.parseDouble(weatherAnalysis.getMain().getFeels_like());
             feelsLikeTextView.setText("Feels Like: " + String.format("%.0f", intFeelsLike) + " °F");
+            stringDescription = WordUtils.capitalize(weatherAnalysis.getWeatherList().get(0).getDescription());
+            descriptionTextView.setText(stringDescription);
         }
 
 
