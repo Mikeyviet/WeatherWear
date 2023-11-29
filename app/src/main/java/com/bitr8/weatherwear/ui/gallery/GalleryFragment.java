@@ -41,7 +41,6 @@ public class GalleryFragment extends Fragment {
         View root = binding.getRoot();
         clothingText = root.findViewById(R.id.text_clothing);
         clothingImage = root.findViewById(R.id.imageView2);
-        Bundle bundle = this.getArguments();
         displayClothing();
 
         return root;

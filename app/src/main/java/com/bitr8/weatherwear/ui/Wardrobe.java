@@ -3,7 +3,7 @@ package com.bitr8.weatherwear.ui;
 public class Wardrobe {
     static void main(String[] args) {
         String[] genericClothes =
-        {"A find day for: Shorts, T-Shirts",
+        {"A fine day for: Shorts, T-Shirts",
         "Its raining! Umbrella, waterproof jacket, and maybe rainboots!",
         "Its burning outside! T-shirt or long sleeves, shorts, and possibly an umbrella!",
         "Its a little chilly! Longs sleeves shirt or jacket with long pants",

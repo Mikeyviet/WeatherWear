@@ -1,7 +1,13 @@
 package com.bitr8.weatherwear.ui.home;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,10 +63,11 @@ public class HomeFragment extends Fragment {
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
+        
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
+        //Toast.makeText(getActivity(), "Welcome " + mString + "!", Toast.LENGTH_SHORT).show();
         cityNameTextView = root.findViewById(R.id.city_name_text_view);
         temperatureTextView = root.findViewById(R.id.temperature_text_view);
         humidityTextView = root.findViewById(R.id.humidity_text_view);
@@ -74,8 +81,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 location = String.valueOf(inputText.getText());
                 loadWeatherData(location);
-                Snackbar.make(view, "Showing weather data for " + WordUtils.capitalize(location) , Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Showing weather data for " + WordUtils.capitalize(location) , Snackbar.LENGTH_LONG)
+                        //.setAction("Action", null).show();
             }
         });
 
@@ -101,7 +108,42 @@ public class HomeFragment extends Fragment {
         openWeatherMapInterface = WeatherAPI.getInstance().create(OpenWeatherMapInterface.class);
 
         loadWeatherData(location);
+        SharedPreferences mPrefs = getContext().getSharedPreferences("label", 0);
+        String mString = mPrefs.getString("tag", "Default Name");
+        binding.login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Enter Your Email");
 
+// Set up the input
+                final EditText input = new EditText(getContext());
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+// Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        SharedPreferences.Editor mEditor = mPrefs.edit();
+                        String test = input.getText().toString();
+                        mEditor.putString("tag", test).apply();
+                        Toast.makeText(getActivity(), "Welcome " + test + "!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+        Toast.makeText(getActivity(), "Welcome " + mString + "!", Toast.LENGTH_SHORT).show();
         return root;
     }
 
@@ -163,6 +205,8 @@ public class HomeFragment extends Fragment {
     private void showDebugToast() {
         Toast.makeText(getActivity(), "Showing weather for " + location, Toast.LENGTH_SHORT).show();
     }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
